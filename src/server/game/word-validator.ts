@@ -1,5 +1,6 @@
 import { getMinWordLength } from "@/game/constants";
 import type { WordEntry } from "@/game/types";
+import { isEnglishWord } from "./dictionary";
 
 export interface ValidationResult {
   valid: boolean;
@@ -35,6 +36,10 @@ export function validateWord(
       valid: false,
       reason: `Word must be at least ${minLength} characters for letter "${letter.toUpperCase()}"`,
     };
+  }
+
+  if (!isEnglishWord(cleaned)) {
+    return { valid: false, reason: `"${cleaned}" is not a recognized English word` };
   }
 
   // Check for exact duplicates

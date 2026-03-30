@@ -76,4 +76,26 @@ describe("validateWord", () => {
     const result = validateWord("  start  ", "S", []);
     expect(result.valid).toBe(true);
   });
+
+  it("rejects gibberish that is not a real English word", () => {
+    const result = validateWord("sxyzqwkjf", "S", []);
+    expect(result.valid).toBe(false);
+    expect(result.reason).toContain("not a recognized English word");
+  });
+
+  it("rejects made-up words that pass format checks", () => {
+    const result = validateWord("blorft", "B", []);
+    expect(result.valid).toBe(false);
+    expect(result.reason).toContain("not a recognized English word");
+  });
+
+  it("accepts real English words from the dictionary", () => {
+    const result = validateWord("sculpture", "S", []);
+    expect(result.valid).toBe(true);
+  });
+
+  it("validates dictionary check is case-insensitive", () => {
+    const result = validateWord("FISHING", "F", []);
+    expect(result.valid).toBe(true);
+  });
 });
