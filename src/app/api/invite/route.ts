@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { trackEvent } from "@/lib/analytics";
 
 // GET /api/invite — generate invite link data for current user
 export async function GET() {
@@ -29,6 +30,12 @@ export async function GET() {
   const referralCode = user.id.slice(-8);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+  trackEvent(session.user.id, "invite_sent", {
+    referralCode,
+    rating: user.rating,
+    gamesPlayed: user.gamesPlayed,
+  });
 
   return NextResponse.json({
     referralCode,

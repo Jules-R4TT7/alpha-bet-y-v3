@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { registerSchema } from "@/lib/validations";
+import { trackEvent, identifyUser } from "@/lib/analytics";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       email,
       username,
@@ -42,6 +43,9 @@ export async function POST(request: Request) {
       password: hashedPassword,
     },
   });
+
+  identifyUser(user.id, { email, username });
+  trackEvent(user.id, "signup", { method: "email" });
 
   return NextResponse.json({ success: true }, { status: 201 });
 }

@@ -1,8 +1,10 @@
 import { createServer } from "http";
 import next from "next";
 import { Server as SocketIOServer } from "socket.io";
+import * as Sentry from "@sentry/nextjs";
 import type { ClientToServerEvents, ServerToClientEvents } from "@/game/types";
 import { registerHandlers } from "./game/handlers";
+import { shutdownAnalytics } from "@/lib/analytics";
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = process.env.HOSTNAME || "0.0.0.0";
@@ -35,4 +37,12 @@ app.prepare().then(() => {
     console.log(`> WebSocket server running on same port`);
     console.log(`> Environment: ${dev ? "development" : "production"}`);
   });
+
+  const shutdown = async () => {
+    await shutdownAnalytics();
+    await Sentry.close(2000);
+    process.exit(0);
+  };
+  process.on("SIGTERM", shutdown);
+  process.on("SIGINT", shutdown);
 });

@@ -9,6 +9,7 @@ import { LETTER_TIERS, GAME_DEFAULTS, scoreWord } from "@/game/constants";
 import { validateWord } from "./word-validator";
 import * as roomManager from "./room-manager";
 import { prisma } from "@/lib/db";
+import { trackEvent, captureError } from "@/lib/analytics";
 
 type GameServer = SocketIOServer<ClientToServerEvents, ServerToClientEvents>;
 
@@ -51,6 +52,14 @@ export async function startGame(
   }
 
   await roomManager.saveRoom(room);
+
+  for (const player of room.players) {
+    trackEvent(player.userId, "game_started", {
+      gameId: room.id,
+      mode: room.mode,
+      totalRounds: room.totalRounds,
+    });
+  }
 
   // Notify players: round starting with bidding phase
   io.to(room.id).emit("game:state", room);
@@ -299,6 +308,17 @@ async function completeGame(
     ratingChanges,
   });
 
+  for (const p of room.players) {
+    trackEvent(p.userId, "game_completed", {
+      gameId: room.id,
+      mode: room.mode,
+      result: results[p.userId],
+      score: p.score,
+      ratingChange: ratingChanges[p.userId] ?? 0,
+      rounds: room.totalRounds,
+    });
+  }
+
   // Persist to database
   await persistGameResults(room, results, ratingChanges);
 
@@ -411,6 +431,10 @@ async function persistGameResults(
     });
   } catch (err) {
     console.error("Failed to persist game results:", err);
+    captureError(err instanceof Error ? err : new Error(String(err)), {
+      gameId: room.id,
+      mode: room.mode,
+    });
   }
 }
 

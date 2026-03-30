@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { z } from "zod";
+import { trackEvent } from "@/lib/analytics";
 
 const submitSchema = z.object({
   challengeId: z.string(),
@@ -60,6 +61,12 @@ export async function POST(req: Request) {
       score,
       wordsPlayed,
     },
+  });
+
+  trackEvent(session.user.id, "daily_challenge_completed", {
+    challengeId,
+    score,
+    wordsPlayed,
   });
 
   // Check for streak-based notifications

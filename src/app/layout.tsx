@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SessionProvider from "@/components/SessionProvider";
+import PostHogProvider from "@/components/PostHogProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-game-bg text-white antialiased">
-        <SessionProvider>{children}</SessionProvider>
+        <PostHogProvider>
+          <SessionProvider>{children}</SessionProvider>
+        </PostHogProvider>
       </body>
     </html>
   );

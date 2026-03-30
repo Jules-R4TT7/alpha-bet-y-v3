@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { trackEvent } from "@/lib/analytics";
 
 // GET /api/share/[gameId] — get shareable game result data
 export async function GET(
@@ -38,6 +39,11 @@ export async function GET(
   const shareText = winner
     ? `I scored ${winner.score} pts on Alpha-bet-y! Can you beat me? 🎯`
     : `It was a draw at ${players[0]?.score} pts on Alpha-bet-y! 🤝`;
+
+  trackEvent(gameId, "share_clicked", {
+    gameId: game.id,
+    mode: game.mode,
+  });
 
   return NextResponse.json({
     gameId: game.id,
