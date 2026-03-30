@@ -32,6 +32,13 @@ model User {
   gamePlayersA GamePlayer[]
   challenges   DailyChallengeEntry[]
 
+  // Social
+  following Follow[] @relation("follower")
+  followers Follow[] @relation("following")
+
+  // Notifications
+  notifications Notification[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -166,4 +173,46 @@ enum GameResult {
   WIN
   LOSS
   DRAW
+}
+
+// Social — follow/friends system
+model Follow {
+  id          String @id @default(cuid())
+  followerId  String
+  followingId String
+
+  follower  User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+}
+
+// In-app notifications
+model Notification {
+  id     String           @id @default(cuid())
+  userId String
+  type   NotificationType
+  title  String
+  body   String
+  data   Json?
+  read   Boolean          @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+}
+
+enum NotificationType {
+  STREAK_MILESTONE
+  DAILY_CHALLENGE
+  FRIEND_JOINED
+  GAME_INVITE
+  LEADERBOARD_RANK
 }

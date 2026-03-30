@@ -2,6 +2,7 @@
 
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import NotificationBell from "./NotificationBell";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -12,8 +13,21 @@ export default function Navbar() {
         Alpha-bet-y
       </Link>
       <div className="flex items-center gap-4">
+        <Link
+          href="/daily-challenge"
+          className="text-sm text-gray-300 hover:text-white"
+        >
+          Daily
+        </Link>
+        <Link
+          href="/leaderboards"
+          className="text-sm text-gray-300 hover:text-white"
+        >
+          Leaderboards
+        </Link>
         {session?.user ? (
           <>
+            <NotificationBell />
             <Link
               href="/profile"
               className="text-sm text-gray-300 hover:text-white"

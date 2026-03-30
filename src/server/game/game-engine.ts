@@ -387,6 +387,25 @@ async function persistGameResults(
             SET "bestStreak" = GREATEST("bestStreak", "streak")
             WHERE id = ${player.userId}
           `;
+
+          // Check for streak milestone notifications
+          const updatedUser = await tx.user.findUnique({
+            where: { id: player.userId },
+            select: { streak: true },
+          });
+          const streak = updatedUser?.streak ?? 0;
+          const milestones = [3, 5, 10, 25, 50, 100];
+          if (milestones.includes(streak)) {
+            await tx.notification.create({
+              data: {
+                userId: player.userId,
+                type: "STREAK_MILESTONE",
+                title: `${streak}-win streak!`,
+                body: `You're on fire with ${streak} wins in a row! Keep it up!`,
+                data: { streak },
+              },
+            });
+          }
         }
       }
     });

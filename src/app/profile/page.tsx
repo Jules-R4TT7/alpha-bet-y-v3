@@ -153,6 +153,15 @@ export default function ProfilePage() {
               <StatCard label="Best Streak" value={profile.bestStreak} />
             </div>
 
+            {/* Invite friends */}
+            <div className="rounded-xl bg-game-card p-6">
+              <h3 className="mb-3 text-lg font-bold">Invite Friends</h3>
+              <p className="mb-4 text-sm text-gray-400">
+                Share your invite link and compete with friends!
+              </p>
+              <InviteButton />
+            </div>
+
             <p className="text-sm text-gray-500">
               Member since {new Date(profile.createdAt).toLocaleDateString()}
             </p>
@@ -174,6 +183,51 @@ function StatCard({
     <div className="rounded-lg bg-game-card p-4 text-center">
       <p className="text-2xl font-bold">{value}</p>
       <p className="mt-1 text-xs text-gray-400">{label}</p>
+    </div>
+  );
+}
+
+function InviteButton() {
+  const [copied, setCopied] = useState(false);
+  const [inviteUrl, setInviteUrl] = useState("");
+  const [shareText, setShareText] = useState("");
+
+  useEffect(() => {
+    fetch("/api/invite")
+      .then((r) => r.json())
+      .then((data) => {
+        setInviteUrl(data.inviteUrl ?? "");
+        setShareText(data.shareText ?? "");
+      })
+      .catch(() => {});
+  }, []);
+
+  function handleCopy() {
+    const text = `${shareText}\n${inviteUrl}`;
+    if (navigator.share) {
+      navigator.share({ text, url: inviteUrl });
+    } else {
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }
+
+  if (!inviteUrl) return null;
+
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        readOnly
+        value={inviteUrl}
+        className="flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-gray-300"
+      />
+      <button
+        onClick={handleCopy}
+        className="rounded-lg bg-game-accent px-4 py-2 text-sm font-semibold transition hover:brightness-110"
+      >
+        {copied ? "Copied!" : "Share"}
+      </button>
     </div>
   );
 }
