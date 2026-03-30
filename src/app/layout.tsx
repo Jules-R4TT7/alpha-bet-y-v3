@@ -1,0 +1,22 @@
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Alpha-bet-y | Competitive Word Bidding Game",
+  description:
+    "Race to type words, bid on targets, and outsmart your opponents in this fast-paced multiplayer word game.",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className="min-h-screen bg-game-bg text-white antialiased">
+        {children}
+      </body>
+    </html>
+  );
+}

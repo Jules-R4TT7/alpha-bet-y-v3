@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --game-bg: #1a1a2e;
+  --game-card: #16213e;
+  --game-accent: #e94560;
+  --game-gold: #f5c518;
+}
+
+body {
+  background-color: var(--game-bg);
+  color: white;
+}
