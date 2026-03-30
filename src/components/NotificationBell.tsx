@@ -51,7 +51,7 @@ export default function NotificationBell() {
           setOpen(!open);
           if (!open && unreadCount > 0) markAllRead();
         }}
-        className="relative text-sm text-gray-300 hover:text-white"
+        className="touch-target relative flex items-center justify-center text-sm text-gray-300 hover:text-white"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -74,33 +74,40 @@ export default function NotificationBell() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-8 z-50 w-80 rounded-lg border border-white/10 bg-game-card shadow-xl">
-          <div className="border-b border-white/10 px-4 py-3">
-            <p className="text-sm font-semibold">Notifications</p>
+        <>
+          {/* Backdrop to close on outside tap (mobile) */}
+          <div
+            className="fixed inset-0 z-40 sm:hidden"
+            onClick={() => setOpen(false)}
+          />
+          <div className="fixed left-2 right-2 top-14 z-50 rounded-lg border border-white/10 bg-game-card shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-8 sm:w-80">
+            <div className="border-b border-white/10 px-4 py-3">
+              <p className="text-sm font-semibold">Notifications</p>
+            </div>
+            <div className="max-h-64 overflow-y-auto sm:max-h-80">
+              {notifications.length === 0 ? (
+                <p className="p-4 text-center text-sm text-gray-400">
+                  No notifications
+                </p>
+              ) : (
+                notifications.map((n) => (
+                  <div
+                    key={n.id}
+                    className={`border-b border-white/5 px-4 py-3 ${
+                      !n.read ? "bg-white/5" : ""
+                    }`}
+                  >
+                    <p className="text-sm font-semibold">{n.title}</p>
+                    <p className="mt-0.5 text-xs text-gray-400">{n.body}</p>
+                    <p className="mt-1 text-[10px] text-gray-500">
+                      {new Date(n.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
-          <div className="max-h-80 overflow-y-auto">
-            {notifications.length === 0 ? (
-              <p className="p-4 text-center text-sm text-gray-400">
-                No notifications
-              </p>
-            ) : (
-              notifications.map((n) => (
-                <div
-                  key={n.id}
-                  className={`border-b border-white/5 px-4 py-3 ${
-                    !n.read ? "bg-white/5" : ""
-                  }`}
-                >
-                  <p className="text-sm font-semibold">{n.title}</p>
-                  <p className="mt-0.5 text-xs text-gray-400">{n.body}</p>
-                  <p className="mt-1 text-[10px] text-gray-500">
-                    {new Date(n.createdAt).toLocaleString()}
-                  </p>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
+        </>
       )}
     </div>
   );

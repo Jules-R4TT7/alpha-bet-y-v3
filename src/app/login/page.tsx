@@ -34,9 +34,9 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      <div className="w-full max-w-md rounded-xl bg-game-card p-8 shadow-lg">
-        <h1 className="mb-6 text-center text-3xl font-bold">Sign In</h1>
+    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8 sm:p-8">
+      <div className="w-full max-w-md rounded-xl bg-game-card p-5 shadow-lg sm:p-8">
+        <h1 className="mb-6 text-center text-2xl font-bold sm:text-3xl">Sign In</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

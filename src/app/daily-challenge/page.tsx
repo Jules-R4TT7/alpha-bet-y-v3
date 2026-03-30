@@ -143,9 +143,9 @@ export default function DailyChallengePage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-3xl p-8">
-        <h1 className="mb-2 text-3xl font-bold">Daily Challenge</h1>
-        <p className="mb-8 text-gray-400">
+      <main className="mx-auto max-w-3xl px-4 py-6 sm:p-8">
+        <h1 className="mb-2 text-2xl font-bold sm:text-3xl">Daily Challenge</h1>
+        <p className="mb-6 text-sm text-gray-400 sm:mb-8 sm:text-base">
           Same letter for everyone. One attempt per day. Compete for the top spot.
         </p>
 
@@ -154,28 +154,28 @@ export default function DailyChallengePage() {
         ) : (
           <div className="space-y-6">
             {/* Challenge info */}
-            <div className="rounded-xl bg-game-card p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">{challenge.date}</p>
-                  <p className="mt-1 text-lg">
+            <div className="rounded-xl bg-game-card p-4 sm:p-6">
+              <div className="flex items-center justify-between gap-4">
+                <div className="min-w-0">
+                  <p className="text-xs text-gray-400 sm:text-sm">{challenge.date}</p>
+                  <p className="mt-1 text-base sm:text-lg">
                     Today&apos;s letter:{" "}
-                    <span className="text-4xl font-bold text-game-gold">
+                    <span className="text-3xl font-bold text-game-gold sm:text-4xl">
                       {challenge.letter}
                     </span>
                   </p>
-                  <p className="mt-1 text-sm text-gray-400">
+                  <p className="mt-1 text-xs text-gray-400 sm:text-sm">
                     Target: {challenge.target} words | {challenge.participants}{" "}
                     players today
                   </p>
                 </div>
-                <div className="text-right">
+                <div className="shrink-0 text-right">
                   {playing && (
                     <div>
-                      <p className="text-4xl font-bold text-game-accent">
+                      <p className="text-3xl font-bold text-game-accent sm:text-4xl">
                         {timeLeft}s
                       </p>
-                      <p className="text-sm text-gray-400">remaining</p>
+                      <p className="text-xs text-gray-400 sm:text-sm">remaining</p>
                     </div>
                   )}
                 </div>
@@ -193,40 +193,45 @@ export default function DailyChallengePage() {
             )}
 
             {playing && (
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <div className="flex gap-2">
                   <input
                     value={word}
                     onChange={(e) => setWord(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleAddWord()}
-                    placeholder={`Type a word starting with ${challenge.letter}...`}
-                    className="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-lg focus:border-game-accent focus:outline-none"
+                    placeholder={`Word starting with ${challenge.letter}...`}
+                    className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-3 text-base focus:border-game-accent focus:outline-none sm:px-4 sm:text-lg"
                     autoFocus
+                    autoComplete="off"
+                    autoCapitalize="off"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    enterKeyHint="done"
                   />
                   <button
                     onClick={handleAddWord}
-                    className="rounded-lg bg-game-accent px-6 py-3 font-semibold transition hover:brightness-110"
+                    className="shrink-0 rounded-lg bg-game-accent px-4 py-3 font-semibold transition hover:brightness-110 sm:px-6"
                   >
                     Add
                   </button>
                 </div>
                 {error && <p className="text-sm text-red-400">{error}</p>}
 
-                <div className="flex items-center justify-between rounded-lg bg-game-card p-4">
-                  <span className="text-gray-400">
+                <div className="flex items-center justify-between rounded-lg bg-game-card px-3 py-3 sm:p-4">
+                  <span className="text-sm text-gray-400 sm:text-base">
                     {words.length} words played
                   </span>
-                  <span className="text-2xl font-bold text-game-gold">
+                  <span className="text-xl font-bold text-game-gold sm:text-2xl">
                     {score} pts
                   </span>
                 </div>
 
                 {words.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {words.map((w) => (
                       <span
                         key={w.word}
-                        className="rounded-full bg-white/10 px-3 py-1 text-sm"
+                        className="rounded-full bg-white/10 px-2.5 py-1 text-xs sm:px-3 sm:text-sm"
                       >
                         {w.word}{" "}
                         <span className="text-game-gold">+{w.points}</span>
@@ -246,15 +251,15 @@ export default function DailyChallengePage() {
 
             {submitted && (
               <div className="space-y-4">
-                <div className="rounded-xl bg-game-card p-6 text-center">
+                <div className="rounded-xl bg-game-card p-5 text-center sm:p-6">
                   <p className="text-sm text-gray-400">Your score</p>
-                  <p className="text-5xl font-bold text-game-gold">{score}</p>
-                  <p className="mt-2 text-gray-300">
+                  <p className="text-4xl font-bold text-game-gold sm:text-5xl">{score}</p>
+                  <p className="mt-2 text-sm text-gray-300 sm:text-base">
                     {words.length} words in 60 seconds
                   </p>
                   <button
                     onClick={handleShareResult}
-                    className="mt-4 rounded-lg bg-game-accent px-6 py-3 font-semibold transition hover:brightness-110"
+                    className="mt-4 w-full rounded-lg bg-game-accent px-6 py-3 font-semibold transition hover:brightness-110 sm:w-auto"
                   >
                     Share Result
                   </button>
@@ -264,9 +269,9 @@ export default function DailyChallengePage() {
 
             {/* Leaderboard */}
             <div>
-              <h2 className="mb-4 text-xl font-bold">Today&apos;s Leaderboard</h2>
+              <h2 className="mb-3 text-lg font-bold sm:mb-4 sm:text-xl">Today&apos;s Leaderboard</h2>
               {leaderboard.length === 0 ? (
-                <p className="text-gray-400">
+                <p className="text-sm text-gray-400">
                   No entries yet. Be the first!
                 </p>
               ) : (
@@ -274,21 +279,21 @@ export default function DailyChallengePage() {
                   {leaderboard.map((entry) => (
                     <div
                       key={entry.rank}
-                      className="flex items-center justify-between rounded-lg bg-game-card px-4 py-3"
+                      className="flex items-center justify-between rounded-lg bg-game-card px-3 py-2.5 sm:px-4 sm:py-3"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 sm:gap-3">
                         <span
-                          className={`text-lg font-bold ${
+                          className={`text-base font-bold sm:text-lg ${
                             entry.rank <= 3 ? "text-game-gold" : "text-gray-400"
                           }`}
                         >
                           #{entry.rank}
                         </span>
-                        <span>{entry.username}</span>
+                        <span className="truncate text-sm sm:text-base">{entry.username}</span>
                       </div>
-                      <div className="text-right">
-                        <span className="font-bold">{entry.score} pts</span>
-                        <span className="ml-2 text-sm text-gray-400">
+                      <div className="shrink-0 text-right">
+                        <span className="text-sm font-bold sm:text-base">{entry.score} pts</span>
+                        <span className="ml-1.5 text-xs text-gray-400 sm:ml-2 sm:text-sm">
                           ({entry.wordsPlayed} words)
                         </span>
                       </div>

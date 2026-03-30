@@ -41,7 +41,7 @@ export default function UpgradePage() {
     return (
       <>
         <Navbar />
-        <main className="flex min-h-screen flex-col items-center justify-center p-8">
+        <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8 sm:p-8">
           <p className="text-gray-400">Please sign in first.</p>
         </main>
       </>
@@ -51,9 +51,9 @@ export default function UpgradePage() {
   return (
     <>
       <Navbar />
-      <main className="flex min-h-screen flex-col items-center justify-center p-8">
-        <div className="w-full max-w-md rounded-xl bg-game-card p-8 shadow-lg">
-          <h1 className="mb-2 text-center text-3xl font-bold">Upgrade Account</h1>
+      <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8 sm:p-8">
+        <div className="w-full max-w-md rounded-xl bg-game-card p-5 shadow-lg sm:p-8">
+          <h1 className="mb-2 text-center text-2xl font-bold sm:text-3xl">Upgrade Account</h1>
           <p className="mb-6 text-center text-sm text-gray-400">
             Save your progress, stats, and appear on leaderboards
           </p>

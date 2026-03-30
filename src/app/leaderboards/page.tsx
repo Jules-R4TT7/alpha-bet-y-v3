@@ -60,16 +60,16 @@ export default function LeaderboardsPage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-3xl p-8">
-        <h1 className="mb-8 text-3xl font-bold">Leaderboards</h1>
+      <main className="mx-auto max-w-3xl px-4 py-6 sm:p-8">
+        <h1 className="mb-6 text-2xl font-bold sm:mb-8 sm:text-3xl">Leaderboards</h1>
 
         {/* Tabs */}
-        <div className="mb-6 flex gap-2">
+        <div className="mb-5 flex gap-2 sm:mb-6">
           {tabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+              className={`rounded-lg px-3.5 py-2.5 text-sm font-semibold transition sm:px-4 sm:py-2 ${
                 tab === t.key
                   ? "bg-game-accent"
                   : "border border-white/10 hover:bg-white/10"
@@ -81,8 +81,8 @@ export default function LeaderboardsPage() {
         </div>
 
         {!session?.user && tab === "friends" ? (
-          <div className="rounded-xl bg-game-card p-8 text-center">
-            <p className="text-gray-400">
+          <div className="rounded-xl bg-game-card p-6 text-center sm:p-8">
+            <p className="text-sm text-gray-400 sm:text-base">
               Sign in to see your friends leaderboard.
             </p>
             <a
@@ -95,8 +95,8 @@ export default function LeaderboardsPage() {
         ) : loading ? (
           <p className="text-gray-400">Loading...</p>
         ) : entries.length === 0 ? (
-          <div className="rounded-xl bg-game-card p-8 text-center">
-            <p className="text-gray-400">
+          <div className="rounded-xl bg-game-card p-6 text-center sm:p-8">
+            <p className="text-sm text-gray-400 sm:text-base">
               {tab === "friends"
                 ? "Follow other players to see them here!"
                 : "No entries yet. Be the first to play!"}
@@ -107,45 +107,45 @@ export default function LeaderboardsPage() {
             {entries.map((entry) => (
               <div
                 key={`${entry.userId}-${entry.rank}`}
-                className={`flex items-center justify-between rounded-lg px-4 py-3 ${
+                className={`flex items-center justify-between rounded-lg px-3 py-2.5 sm:px-4 sm:py-3 ${
                   entry.isYou ? "bg-game-accent/20 border border-game-accent/40" : "bg-game-card"
                 }`}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-center gap-2 sm:gap-3">
                   <span
-                    className={`w-8 text-lg font-bold ${
+                    className={`w-7 shrink-0 text-base font-bold sm:w-8 sm:text-lg ${
                       entry.rank <= 3 ? "text-game-gold" : "text-gray-400"
                     }`}
                   >
                     #{entry.rank}
                   </span>
-                  <div>
-                    <span className="font-semibold">
+                  <div className="min-w-0">
+                    <span className="text-sm font-semibold sm:text-base">
                       {entry.username}
                       {entry.isYou && (
-                        <span className="ml-2 text-xs text-game-accent">
+                        <span className="ml-1.5 text-xs text-game-accent">
                           (you)
                         </span>
                       )}
                     </span>
-                    <p className="text-xs text-gray-400">
+                    <p className="truncate text-[11px] text-gray-400 sm:text-xs">
                       {entry.gamesPlayed} games
-                      {entry.winRate !== undefined && ` | ${entry.winRate}% win rate`}
+                      {entry.winRate !== undefined && ` | ${entry.winRate}% win`}
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="shrink-0 text-right">
                   {(tab === "global-rating" || tab === "friends") && (
-                    <p className="text-xl font-bold text-game-gold">
+                    <p className="text-lg font-bold text-game-gold sm:text-xl">
                       {entry.rating}
                     </p>
                   )}
                   {tab === "global-streak" && (
-                    <p className="text-xl font-bold text-game-gold">
+                    <p className="text-lg font-bold text-game-gold sm:text-xl">
                       {entry.bestStreak}
                     </p>
                   )}
-                  <p className="text-xs text-gray-400">
+                  <p className="text-[11px] text-gray-400 sm:text-xs">
                     {tab === "global-streak" ? "best streak" : "rating"}
                   </p>
                 </div>

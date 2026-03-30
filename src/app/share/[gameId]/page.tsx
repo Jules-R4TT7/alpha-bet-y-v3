@@ -53,10 +53,10 @@ export default function ShareGamePage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-2xl p-8">
+      <main className="mx-auto max-w-2xl px-4 py-6 sm:p-8">
         {notFound ? (
           <div className="text-center">
-            <h1 className="mb-4 text-3xl font-bold">Game Not Found</h1>
+            <h1 className="mb-4 text-2xl font-bold sm:text-3xl">Game Not Found</h1>
             <p className="text-gray-400">
               This game doesn&apos;t exist or hasn&apos;t finished yet.
             </p>
@@ -72,34 +72,34 @@ export default function ShareGamePage() {
         ) : (
           <div className="space-y-6">
             <div className="text-center">
-              <h1 className="mb-2 text-3xl font-bold">Game Result</h1>
-              <p className="text-sm text-gray-400">
+              <h1 className="mb-2 text-2xl font-bold sm:text-3xl">Game Result</h1>
+              <p className="text-xs text-gray-400 sm:text-sm">
                 {data.mode} | {data.rounds} rounds |{" "}
                 {new Date(data.completedAt).toLocaleDateString()}
               </p>
             </div>
 
             {/* Player cards */}
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3 grid-cols-2 sm:gap-4">
               {data.players.map((player) => (
                 <div
                   key={player.username}
-                  className={`rounded-xl p-6 text-center ${
+                  className={`rounded-xl p-4 text-center sm:p-6 ${
                     player.result === "WIN"
                       ? "bg-game-gold/10 border border-game-gold/30"
                       : "bg-game-card"
                   }`}
                 >
                   {player.result === "WIN" && (
-                    <p className="mb-1 text-sm font-semibold text-game-gold">
+                    <p className="mb-1 text-xs font-semibold text-game-gold sm:text-sm">
                       Winner
                     </p>
                   )}
-                  <p className="text-xl font-bold">{player.username}</p>
-                  <p className="mt-2 text-4xl font-bold text-game-gold">
+                  <p className="truncate text-base font-bold sm:text-xl">{player.username}</p>
+                  <p className="mt-1 text-3xl font-bold text-game-gold sm:mt-2 sm:text-4xl">
                     {player.score}
                   </p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-xs text-gray-400 sm:text-sm">
                     {player.wordCount} words
                   </p>
                 </div>
@@ -107,16 +107,16 @@ export default function ShareGamePage() {
             </div>
 
             {/* Share + CTA */}
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-3 sm:gap-4">
               <button
                 onClick={handleShare}
-                className="rounded-lg bg-game-accent px-8 py-4 text-lg font-semibold transition hover:brightness-110"
+                className="w-full rounded-lg bg-game-accent px-8 py-4 text-lg font-semibold transition hover:brightness-110 sm:w-auto"
               >
                 {copied ? "Copied!" : "Share Result"}
               </button>
               <Link
                 href="/"
-                className="rounded-lg border border-white/20 px-8 py-4 text-lg font-semibold transition hover:bg-white/10"
+                className="w-full rounded-lg border border-white/20 px-8 py-4 text-center text-lg font-semibold transition hover:bg-white/10 sm:w-auto"
               >
                 Play Alpha-bet-y
               </Link>

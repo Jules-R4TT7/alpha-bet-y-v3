@@ -24,16 +24,16 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex min-h-[calc(100vh-65px)] flex-col items-center justify-center p-8">
-        <h1 className="mb-4 text-6xl font-bold tracking-tight">Alpha-bet-y</h1>
-        <p className="mb-8 text-xl text-gray-300">
+      <main className="flex min-h-[calc(100vh-57px)] flex-col items-center justify-center px-4 py-8 sm:min-h-[calc(100vh-65px)] sm:p-8">
+        <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-6xl">Alpha-bet-y</h1>
+        <p className="mb-8 text-lg text-gray-300 sm:text-xl">
           The competitive word bidding game
         </p>
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
+        <div className="flex w-full max-w-sm flex-col items-center gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:gap-4">
           {session?.user ? (
             <a
               href="/play"
-              className="rounded-lg bg-game-accent px-8 py-4 text-lg font-semibold transition hover:brightness-110"
+              className="w-full rounded-lg bg-game-accent px-8 py-4 text-center text-lg font-semibold transition hover:brightness-110 sm:w-auto"
             >
               Play Now
             </a>
@@ -42,13 +42,13 @@ export default function Home() {
               <button
                 onClick={handleGuestPlay}
                 disabled={loading}
-                className="rounded-lg bg-game-accent px-8 py-4 text-lg font-semibold transition hover:brightness-110 disabled:opacity-50"
+                className="w-full rounded-lg bg-game-accent px-8 py-4 text-lg font-semibold transition hover:brightness-110 disabled:opacity-50 sm:w-auto"
               >
                 {loading ? "Starting..." : "Play as Guest"}
               </button>
               <a
                 href="/login"
-                className="rounded-lg border border-white/20 px-8 py-4 text-lg font-semibold transition hover:bg-white/10"
+                className="w-full rounded-lg border border-white/20 px-8 py-4 text-center text-lg font-semibold transition hover:bg-white/10 sm:w-auto"
               >
                 Sign In
               </a>
