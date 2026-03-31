@@ -50,6 +50,6 @@ services:
 
 databases:
   - name: alpha-bet-y-db
-    plan: starter
+    plan: basic
     databaseName: alphabety
     postgresMajorVersion: "16"
