@@ -4,7 +4,7 @@ services:
     name: alpha-bet-y
     runtime: node
     plan: starter
-    buildCommand: npm install && npx prisma generate && npm run build
+    buildCommand: npm install --include=dev && npx prisma generate && npm run build
     preDeployCommand: npx prisma db push --skip-generate
     startCommand: npm run start
     healthCheckPath: /
